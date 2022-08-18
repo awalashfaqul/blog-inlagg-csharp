@@ -1,1 +1,201 @@
 # blog-inlagg-csharp
+
+using System;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace bloggen
+{
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<string[]> minBlogg = new List<string[]> { }; //Här skappar listan
+
+            string[] inlägg01 = new string[2];
+            inlägg01[0] = "Stopp! Min kropp!";
+            inlägg01[1] = "Författaren: Åsa Karsin";
+            minBlogg.Add(inlägg01); //Adderar inlägg01 till listan
+
+            string[] inlägg02 = new string[2];
+            inlägg02[0] = "Min första lilla bibel";
+            inlägg02[1] = "Författaren: Cecilie Olesen";
+            minBlogg.Add(inlägg02); //Adderar inlägg02 till listan
+
+            string[] inlägg03 = new string[2];
+            inlägg03[0] = "Dinosaurier : en magisk målarbok";
+            inlägg03[1] = "Författaren: Federica Iossa";
+            minBlogg.Add(inlägg03); //Adderar inlägg03 till listan
+
+            bool minBool = true; //bool variebel för använda som vilkor i while loop.
+
+            while (minBool) //skapar while loop som ska kontrollera bloggen.
+            {
+                Console.Clear();
+             
+                Console.WriteLine("\n\tValkommen till Bloggens Huvudmeny! Välje din val siffor mellan 1-4, tack.");
+                Console.WriteLine(" ");
+                Console.WriteLine("\n\t[1] Skriv in nytt inlägg i Bloggen"); 
+                Console.WriteLine("\t[2] Skriva ut alla inlägg");
+                Console.WriteLine("\t[3] Sök inlägg i Bloggen");
+                Console.WriteLine("\t[4] Avsluta Programmet");
+                Console.Write("\tVälje: ");
+
+                int caseVal; // Initierar och sparar användarens val.
+
+                Int32.TryParse(Console.ReadLine(), out caseVal);//Användar TryParse för att hjälpa programmet inte crashar om användaren
+                                                                //skulle slå in någontingannat istället for ett siffra.
+
+                Console.Clear();
+
+                switch (caseVal) // skapar switch loop 
+
+                {
+
+                    case 1:
+                        string[] inlägg = new string[2];
+
+                        Console.Write("\tTitel: "); //Användaren skriver en titel
+                        inlägg[0] = Console.ReadLine();  //Sparar titeln
+
+                        Console.Write("\tSkriv inlägg: "); //Användaren skriver ett inlägg
+                        inlägg[1] = Console.ReadLine(); //Sparar inlägget
+
+                        Console.WriteLine("\tVill du spara? (Välje siffror mellan 1-2)"); //förfrågar användaren att spara inlägget
+                        Console.WriteLine("\t[1] Ja\n\t[2] Nej");
+                        Console.Write("\tVälje: ");
+
+                        int spara; //initierar val variabel
+
+                                                                       
+                        Int32.TryParse(Console.ReadLine(), out spara); //Användar TryParse för att hjälpa programmet inte crashar om användaren
+                                                                       //skulle slå in någontingannat istället for ett siffra.
+
+                        if (spara == 1)  //skapar if block
+                        {
+                            minBlogg.Add(inlägg); //Addera inlägget i minaInlägg
+                            Console.WriteLine("\n\tTack! Ditt inläggg har sparat.");
+                            Console.WriteLine("\n\tTryck Enter för att visa Huvudmenyn, tack.");
+                            Console.ReadLine(); 
+                        }
+                        else
+                        {
+                            Console.WriteLine("\n\tInlägget sparades inte"); //meddelar till användaren 
+                            Console.WriteLine("\n\tTryck Enter för att visa Huvudmenyn, tack."); //meddelar användaren
+                            Console.ReadLine();
+                            
+                        }
+
+                        break;
+
+                    case 2:
+                    
+                        for(int i=0; i<minBlogg.Count; i++)
+                        {
+                            Console.WriteLine("-------------------------------------------------");
+                            Console.WriteLine("Inläggnummer i Bloggen: "+(i+1));
+                            Console.WriteLine("\n\tTitel: " + minBlogg[i][0]); // Skriver ut alla inlägg
+                            Console.WriteLine("\n\tInlägg: " + minBlogg[i][1]);
+                        }
+                        Console.WriteLine("-------------------------------------------------");
+                        Console.WriteLine("\n\tTryck Enter för att visa Huvudmenyn, tack."); //meddelar användaren
+                        Console.ReadLine();
+                        break;
+
+                    case 3:
+                        Console.WriteLine("\n\tVad vill du söka? (Välje mellan 1-2)");
+                        Console.WriteLine("\n\t[1] Titel");
+                        Console.WriteLine("\n\t[2] Inlägg");
+                        Console.Write("\n\tVälje: ");
+
+                        string sökOrdEtt;
+                        string sökOrdTvå;
+                     
+                        int valSök; //Initierar användarens val.
+                        Int32.TryParse(Console.ReadLine(), out valSök);// Sparar användarens val och Användar TryParse för att hjälpa programmet inte crashar om användaren
+                                                                       //skulle slå in någontingannat istället for ett siffra.
+
+                        if (valSök == 1)
+                        {
+                            Console.Clear();
+                            Console.Write("\n\tSkriv titel du leter efter: ");
+                            sökOrdEtt = Console.ReadLine();
+                            bool hittad = false;
+
+                            for (int i = 0; i < minBlogg.Count; i++)//sökning för titel
+                            {
+                                if (minBlogg[i][0].Contains(sökOrdEtt)) //vilkor att hitta sökningen; sökning i index 0
+                                {
+                                    hittad = true;
+                                    Console.WriteLine("\n\tDu har sökt för: " + sökOrdEtt + ".");
+                                    Console.WriteLine("\n\tDin sökning lykades och hittade i inläggnummer: " + (i+1)+ " i Bloggen," + " i en titel: " + minBlogg[i][0]); // hittar titel i hela bloggen
+                                    Console.ReadLine();
+
+                                }
+                                
+                            }
+                            if(hittad==false)
+                            {
+                                Console.Clear();
+                                Console.WriteLine("\n\tTyvärr! Din sökning lykades inte.");
+                                Console.WriteLine("\n\tDet finns ingen titel. Försök igen senare.");
+                                Console.ReadLine();
+                            }
+                        }
+                        else if (valSök == 2)
+                        {
+                             Console.Clear();
+                             Console.Write("\n\tSkriv inlägg du leter efter: ");
+                             sökOrdTvå = Console.ReadLine();
+                             bool hittad = false;
+
+                             for (int i = 0; i < minBlogg.Count; i++) //sökningen for inlägg
+                             {
+                                if (minBlogg[i][1].Contains(sökOrdTvå)) // vilkor att hitta sökningen; sökning i index 1
+                                {
+                                     hittad = true;
+                                     Console.WriteLine("\n\tDu har sökt för: " + sökOrdTvå + ".");
+                                     Console.WriteLine("\n\tDin sökning lykades och hittade i inläggnummer: " + (i+1) + "i Bloggen," + " i ett inlägg: " + minBlogg[i][1]); // hittar inlägg i hela bloggen
+                                     Console.ReadLine();
+
+                                }
+                             }
+                             if (hittad == false)
+                             {
+                                Console.Clear();
+                                Console.WriteLine("\n\tTyvärr! Din sökning lykades inte.");
+                                Console.WriteLine("\n\tDet finns ingen titel. Försök igen senare.");
+                                Console.ReadLine();
+                             }
+
+                        }
+                        else
+                        {
+                             Console.WriteLine("\n\tOgiltligt val");
+                             Console.ReadLine();
+                        }
+                        
+                        break;
+
+                    case 4:  
+
+                        minBool = false; //Programmet avslutas pga minBool blir falsk här.
+                        break;
+
+                    //Om användaren gjor ett ogiltigt val
+                    default:
+                        Console.WriteLine("\n\tHej, du har skrivit fel val. Var vänlig valje siffrorna mellan 1-4");
+                        break;
+                }
+            }
+
+            // slutligen hälsning
+            Console.WriteLine("\n\tTack för din intresse!! Tryck Enter igen att avsluta.");
+            Console.ReadLine();
+   
+        }
+    }
+}
